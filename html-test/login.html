@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>log in</title>
+</head>
+<body>
+    <div>
+        <label>
+            user name <input type="text" id="textUsername"/>
+        </label>
+        <label>
+            password <input type="password" id="textPassword"/>
+        </label>
+        <button id="btnLogin">log in</button>
+    </div>
+    
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <script>
+        function post(url, data = {}) {
+            return $.ajax({
+                type: 'post',
+                url,
+                data: JSON.stringify(data),
+                contentType: "application/json",
+            })
+        }
+
+        $('#btnLogin').click(() => {
+            const username = $('#textUsername').val()
+            const password = $('#textPassword').val()
+            const url = '/api/user/login'
+            const data = {
+                username,
+                password
+            }
+            post(url, data).then(res => {
+                if (res.errno === 0) {
+                    // login success
+                    location.href = './admin.html'
+                } else {
+                    // login error
+                    alert(res.message)
+                }
+            })
+        })
+    </script>
+</body>
+</html>
